@@ -20,6 +20,8 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
+from caffe2.python import workspace
+
 import os
 import sys
 import yaml
@@ -27,7 +29,10 @@ import yaml
 # Default value of the CMake install prefix
 _CMAKE_INSTALL_PREFIX = '/usr/local'
 # Detectron ops lib
-_DETECTRON_OPS_LIB = 'libcaffe2_detectron_ops_gpu.so'
+if workspace.has_hip_support:
+    _DETECTRON_OPS_LIB = 'libcaffe2_detectron_ops_hip.so'
+else:
+    _DETECTRON_OPS_LIB = 'libcaffe2_detectron_ops_gpu.so'
 
 
 def get_runtime_dir():
